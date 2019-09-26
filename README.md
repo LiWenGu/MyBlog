@@ -5,3 +5,8 @@ mian.go为入口函数，没有调用router.go的任意方法，但是注意引�
 export GOPROXY=https://goproxy.io
 export PATH=$PATH:/Users/mac/go/bin
 export GOPATH=/Users/mac/go
+
+go get github.com/astaxie/beego
+go get -u github.com/beego/bee
+bee new liteblog
+go mod vendor
