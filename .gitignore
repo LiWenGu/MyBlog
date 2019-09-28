@@ -1,3 +1,6 @@
 listblog
 /vendor
 .idea
+conf/securt.conf
+swagger-3.zip
+payServer

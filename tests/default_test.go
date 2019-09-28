@@ -1,39 +1,48 @@
 package test
 
 import (
+	_ "PayServer/routers"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
-	"net/http/httptest"
 	"testing"
-	"runtime"
-	"path/filepath"
-	_ "listblog/routers"
-
-	"github.com/astaxie/beego"
-	. "github.com/smartystreets/goconvey/convey"
 )
 
-func init() {
-	_, file, _, _ := runtime.Caller(0)
-	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".." + string(filepath.Separator))))
-	beego.TestBeegoInit(apppath)
+// TestGet is a sample to run an endpoint test
+func TestGet(t *testing.T) {
+	client := &http.Client{}
+	req, _ := http.NewRequest("GET", "https://element4.market.alicloudapi.com/safrv_4meta?"+
+		"__userId=1961444063236731&"+
+		"validator_id_num=429004199601072193&"+
+		"validator_input_phone=17671656706&"+
+		"validator_user_bank_card=6214832709883503&"+
+		"validator_user_name=李文广", nil)
+	req.Header.Set("Authorization", "APPCODE 78dc692db1114d358ffae4ad4f5ef8a3")
+	resp, _ := client.Do(req)
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+	fmt.Println(string(body))
 }
 
-
-// TestBeego is a sample to run an endpoint test
-func TestBeego(t *testing.T) {
-	r, _ := http.NewRequest("GET", "/", nil)
-	w := httptest.NewRecorder()
-	beego.BeeApp.Handlers.ServeHTTP(w, r)
-
-	beego.Trace("testing", "TestBeego", "Code[%d]\n%s", w.Code, w.Body.String())
-
-	Convey("Subject: Test Station Endpoint\n", t, func() {
-	        Convey("Status Code Should Be 200", func() {
-	                So(w.Code, ShouldEqual, 200)
-	        })
-	        Convey("The Result Should Not Be Empty", func() {
-	                So(w.Body.Len(), ShouldBeGreaterThan, 0)
-	        })
-	})
+func TestParse(t *testing.T) {
+	a := `{"code":200,"value":"1","message":{"result":"1","tag":"Y"}}`
+	b := BankcardCheck4meta{}
+	json.Unmarshal([]byte(a), &b)
+	fmt.Println(b.Message)
 }
 
+type BankcardCheck4meta struct {
+	Code    int
+	Value   string
+	Message BankcardCheck4metaMsg
+}
+
+type BankcardCheck4metaMsg struct {
+	Result string
+	Code   string
+	Tag    string
+}

@@ -1,0 +1,59 @@
+swagger: "2.0"
+info:
+  title: 支付系统 API
+  description: 支付系统 API
+  version: 1.0.0
+  termsOfService: http://beego.me/
+  contact:
+    email: liwenguang_dev@163.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /v1
+paths:
+  /bankcard/check4meta:
+    post:
+      tags:
+      - bankcard
+      summary: 银行卡四要素检查
+      description: 银行卡四要素（身份证、姓名、手机号、银行卡号）检查
+      responses:
+        "200":
+          description: '{string} success'
+definitions:
+  models.Object:
+    title: Object
+    type: object
+    properties:
+      ObjectId:
+        type: string
+      PlayerName:
+        type: string
+      Score:
+        type: integer
+        format: int64
+  models.Profile:
+    title: Profile
+    type: object
+    properties:
+      Address:
+        type: string
+      Age:
+        type: integer
+        format: int64
+      Email:
+        type: string
+      Gender:
+        type: string
+  models.User:
+    title: User
+    type: object
+    properties:
+      Id:
+        type: string
+      Password:
+        type: string
+      Profile:
+        $ref: '#/definitions/models.Profile'
+      Username:
+        type: string
