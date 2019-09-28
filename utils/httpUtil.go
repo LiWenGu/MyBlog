@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"github.com/LiWenGu/payServer/controllers/vo"
 	"github.com/astaxie/beego"
 	"io/ioutil"
 	"net/http"
@@ -19,14 +20,7 @@ type BankcardCheck4metaMsg struct {
 	Tag    string
 }
 
-type BankcardCheck4metaReq struct {
-	Idnum    string
-	Phone    string
-	Bankcard string
-	Name     string
-}
-
-func HttpGet(metaReq *BankcardCheck4metaReq) *BankcardCheck4meta {
+func HttpGet(metaReq *vo.BankcardCheck4metaReqVo) *BankcardCheck4meta {
 	client := &http.Client{}
 	req, _ := http.NewRequest("GET", "https://element4.market.alicloudapi.com/safrv_4meta?"+
 		"__userId="+beego.AppConfig.String("userId")+"&"+
@@ -34,12 +28,12 @@ func HttpGet(metaReq *BankcardCheck4metaReq) *BankcardCheck4meta {
 		"validator_input_phone="+metaReq.Phone+"&"+
 		"validator_user_bank_card="+metaReq.Bankcard+"&"+
 		"validator_user_name="+metaReq.Name, nil)
-	req.Header.Set("Authorization", "APPCODE "+beego.AppConfig.String("userId"))
+	req.Header.Set("Authorization", "APPCODE "+beego.AppConfig.String("appCode"))
 	resp, _ := client.Do(req)
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return nil
 	}
 	result := BankcardCheck4meta{}
 	json.Unmarshal(body, &result)

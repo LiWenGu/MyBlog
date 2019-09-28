@@ -10,5 +10,7 @@ export GOPATH=/Users/mac/go
 
 go get github.com/astaxie/beego
 go get -u github.com/beego/bee
-bee new liteblog
-go mod vendor
+bee api payServer
+
+必须要放在 gopath，不然 swagger 文档生成失败
+

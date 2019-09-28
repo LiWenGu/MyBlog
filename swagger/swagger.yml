@@ -17,43 +17,57 @@ paths:
       - bankcard
       summary: 银行卡四要素检查
       description: 银行卡四要素（身份证、姓名、手机号、银行卡号）检查
+      parameters:
+      - in: body
+        name: body
+        description: 四要素
+        required: true
+        schema:
+          $ref: '#/definitions/vo.BankcardCheck4metaReqVo'
       responses:
         "200":
-          description: '{string} success'
+          description: ""
+          schema:
+            $ref: '#/definitions/vo.BankcardCheck4metaRespVo'
+  /bankcard/findOne:
+    get:
+      tags:
+      - bankcard
+      summary: 查找银行卡
+      description: 银行卡四要素（身份证、姓名、手机号、银行卡号）检查
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/vo.BankcardCheck4metaRespVo'
 definitions:
-  models.Object:
-    title: Object
+  vo.BankcardCheck4metaReqVo:
+    title: BankcardCheck4metaReqVo
     type: object
     properties:
-      ObjectId:
+      Bankcard:
+        description: 银行卡账号
         type: string
-      PlayerName:
+      Idnum:
+        description: 身份证号
         type: string
-      Score:
-        type: integer
-        format: int64
-  models.Profile:
-    title: Profile
+      Name:
+        description: 持卡人姓名
+        type: string
+      Phone:
+        description: 预留手机号
+        type: string
+  vo.BankcardCheck4metaRespVo:
+    title: BankcardCheck4metaRespVo
     type: object
     properties:
-      Address:
+      msg:
+        description: 如果失败，会返回错误code
         type: string
-      Age:
-        type: integer
-        format: int64
-      Email:
-        type: string
-      Gender:
-        type: string
-  models.User:
-    title: User
-    type: object
-    properties:
-      Id:
-        type: string
-      Password:
-        type: string
-      Profile:
-        $ref: '#/definitions/models.Profile'
-      Username:
-        type: string
+      suc:
+        description: 是否成功
+        type: boolean
+tags:
+- name: bankcard
+  description: |
+    银行卡相关操作
