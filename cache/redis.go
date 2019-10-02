@@ -2,6 +2,8 @@ package cache
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/LiWenGu/payServer/controllers/vo"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/cache"
 	_ "github.com/astaxie/beego/cache/redis"
@@ -35,7 +37,16 @@ func Get(key string) string {
 	return string(redis.Get(key).([]byte))
 }
 
-func Put(key string, value string) {
-	d, _ :=time.ParseDuration("1m")
+func PutStr(key string, value string) {
+	d, _ := time.ParseDuration("1m")
 	redis.Put(key, value, d)
+}
+
+func PutStruct(key *vo.TokenReqVo, value string) {
+	b, err := json.Marshal(key)
+	if err != nil {
+		fmt.Println("error")
+	}
+	d, _ := time.ParseDuration("1m")
+	redis.Put(string(b), value, d)
 }
