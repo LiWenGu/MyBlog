@@ -6,3 +6,8 @@ type BankcardCheck4metaReqVo struct {
 	Bankcard string `description:"银行卡账号"`
 	Name     string `description:"持卡人姓名"`
 }
+
+type Token struct {
+	Code int `json:"code"`
+	Msg string `json:"msg"`
+}

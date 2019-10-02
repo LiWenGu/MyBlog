@@ -1,6 +1,8 @@
 package main
 
 import (
+	_ "github.com/LiWenGu/payServer/cache"
+	_ "github.com/LiWenGu/payServer/filter"
 	_ "github.com/LiWenGu/payServer/models"
 	_ "github.com/LiWenGu/payServer/routers"
 	"github.com/astaxie/beego"
